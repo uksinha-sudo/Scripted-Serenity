@@ -85,7 +85,7 @@ userRouter.post("/signin", async (req, res) => {
 });
 
 userRouter.get("/users", middleware, async (req, res) => {
-    const userId = req.body;
+    const {userId} = req.userId;
     try {
 
         const response = await userModel.find({
@@ -110,7 +110,7 @@ userRouter.get("/users", middleware, async (req, res) => {
 });
 
 userRouter.delete("/delete", middleware, async (req, res) => {
-    const userId = req.body;
+    const {userId} = req.userId;
 
     try {
 
@@ -138,7 +138,7 @@ userRouter.delete("/delete", middleware, async (req, res) => {
 })
 
 userRouter.put("/updateInfo", middleware, async (req, res) => {
-    const {userId} = req.body;
+    const {userId} = req.userId;
 
     const { firstName, lastName, profilePicture } = req.body;
 

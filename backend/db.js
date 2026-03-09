@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 const userSchema = mongoose.Schema({
     firstName: {type: String, required: true},
@@ -8,12 +8,12 @@ const userSchema = mongoose.Schema({
     password: {type: String, required: true}
 });
 
+export const userModel = mongoose.model("User", userSchema);
 const noteSchema = mongoose.Schema({
     note: {type: String, required: true},
     tag: {type: String},
-    noteId: {type: mongoose.Types.ObjectId, require: true, ref: 'User'}
+    userId: {type: Schema.Types.ObjectId, required: true, ref: "User"}
 });
 
 
-export const userModel = mongoose.model("User", userSchema);
 export const noteModel = mongoose.model("Note", noteSchema);
