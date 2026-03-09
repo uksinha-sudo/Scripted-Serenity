@@ -2,7 +2,7 @@ import { Router } from 'express'
 
 export const noteRouter = Router();
 
-noteRouter.post("/notes", async(req, res) => {
-
+noteRouter.post("/add", async(req, res) => {
+    
 })
 

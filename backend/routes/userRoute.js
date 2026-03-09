@@ -10,7 +10,7 @@ const jwt_secret = process.env.JWT_SECRET;
 export const userRouter = Router();
 
 userRouter.post("/signup", async (req, res) => {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, profilePicture, email, password } = req.body;
 
     try {
 
@@ -29,6 +29,7 @@ userRouter.post("/signup", async (req, res) => {
         await userModel.create({
             firstName,
             lastName,
+            profilePicture,
             email,
             password: hashedPassword
         });
@@ -87,7 +88,7 @@ userRouter.get("/users", middleware, async (req, res) => {
     const userId = req.body;
     try {
 
-        const response = await userModel.findOne({
+        const response = await userModel.find({
             userId
         });
 
@@ -131,6 +132,35 @@ userRouter.delete("/delete", middleware, async (req, res) => {
         res.status(500).send({
             message: "Internal server error, failed to Delete Your account"
         })
+    }
+
+
+})
+
+userRouter.put("/updateInfo", middleware, async (req, res) => {
+    const {userId} = req.body;
+
+    const { firstName, lastName, profilePicture } = req.body;
+
+    try {
+
+
+        const updatedInfo = await userModel.findOneAndUpdate(
+            { userId }, //filter
+            { firstName, lastName, profilePicture }, // update
+            { returnDocument: 'after' }, //return method
+        )
+
+        if (!updatedInfo) {
+            return res.status(404).send({
+                message: "User not found"
+            })
+        }
+
+        res.status(200).send({ message: "User information Updated" });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ messsage: "Internal server error, failed to updated user information" });
     }
 
 
