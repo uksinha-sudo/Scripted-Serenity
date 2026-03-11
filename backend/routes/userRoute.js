@@ -12,10 +12,11 @@ export const userRouter = Router();
 userRouter.post("/signup", async (req, res) => {
     const { firstName, lastName, profilePicture, email, password } = req.body;
 
+    const lowerCaseEmail = email.toLowerCase();
     try {
 
         const existingUser = await userModel.findOne({
-            email
+            lowerCaseEmail
         });
 
         if (existingUser) {
@@ -30,7 +31,7 @@ userRouter.post("/signup", async (req, res) => {
             firstName,
             lastName,
             profilePicture,
-            email,
+            email: lowerCaseEmail,
             password: hashedPassword
         });
 
