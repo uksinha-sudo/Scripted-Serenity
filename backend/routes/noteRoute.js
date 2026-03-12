@@ -6,7 +6,11 @@ export const noteRouter = Router();
 
 noteRouter.post("/add", middleware, async (req, res) => {
     const note = req.body.note;
-    const tag = req.body.tag
+    const tag = req.body.tag;
+
+     if(note === ""){
+            return
+        }
 
     try {
 
@@ -15,6 +19,8 @@ noteRouter.post("/add", middleware, async (req, res) => {
             tag: tag,
             userId: req.userId
         });
+
+       
 
         if (!addedNote) {
             return res.status(403).send({
@@ -36,18 +42,18 @@ noteRouter.get("/notes", middleware, async (req, res) => {
     const userId = req.userId;
     try {
 
-        const response = await noteModel.find({
+        const note = await noteModel.find({
             userId
         });
 
-        if (!response) {
-            res.status(403).send({
-                message: "Couldn't find Notes"
-            })
+        if (note.length === 0) {
+            return res.status(404).send({
+                message: "No notes found"
+            });
         }
 
         res.send({
-            response
+            note
         })
     } catch (err) {
         console.log(err);

@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema({
 
 export const userModel = mongoose.model("User", userSchema);
 const noteSchema = mongoose.Schema({
-    note: {type: String, required: true},
+    note: {type: String},
     tag: {type: String},
     userId: {type: Schema.Types.ObjectId, required: true, ref: "User"}
 });
